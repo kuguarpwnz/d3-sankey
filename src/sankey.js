@@ -53,6 +53,7 @@ export default function() {
   var x0 = 0, y0 = 0, x1 = 1, y1 = 1, // extent
       dx = 24, // nodeWidth
       py = 8, // nodePadding
+      disableNodeSorting = false,
       id = defaultId,
       align = justify,
       nodes = defaultNodes,
@@ -84,6 +85,10 @@ export default function() {
 
   sankey.nodeWidth = function(_) {
     return arguments.length ? (dx = +_, sankey) : dx;
+  };
+  
+  sankey.disableNodeSorting = function(_) {
+    return arguments.length ? (disableNodeSorting = !!_, sankey) : disableNodeSorting;
   };
 
   sankey.nodePadding = function(_) {
@@ -238,7 +243,7 @@ export default function() {
             i;
 
         // Push any overlapping nodes down.
-        nodes.sort(ascendingBreadth);
+        if(!disableNodeSorting) nodes.sort(ascendingBreadth);
         for (i = 0; i < n; ++i) {
           node = nodes[i];
           dy = y - node.y0;
